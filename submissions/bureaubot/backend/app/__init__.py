@@ -1,0 +1,1 @@
+"""BureauBot FastAPI backend."""
