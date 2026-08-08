@@ -2,8 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { AdminRoute, ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminPortal } from "./pages/AdminPortal";
+import { AgentDashboard } from "./pages/AgentDashboard";
 import { ApplicationTracker } from "./pages/ApplicationTracker";
 import { ChatAssistant } from "./pages/ChatAssistant";
+import { DevelopmentLifecycle } from "./pages/DevelopmentLifecycle";
 import { DocumentChecklist } from "./pages/DocumentChecklist";
 import { EligibilityChecker } from "./pages/EligibilityChecker";
 import { GovernmentServices } from "./pages/GovernmentServices";
@@ -25,6 +27,8 @@ export default function App() {
         <Route path="/eligibility" element={<EligibilityChecker />} />
         <Route path="/checklist" element={<DocumentChecklist />} />
         <Route path="/tracker" element={<ApplicationTracker />} />
+        <Route path="/agent-dashboard" element={<AgentDashboard />} />
+        <Route path="/lifecycle" element={<DevelopmentLifecycle />} />
 
         {/* User Protected Routes */}
         <Route element={<ProtectedRoute />}>

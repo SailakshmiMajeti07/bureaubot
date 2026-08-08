@@ -18,3 +18,8 @@ traces/
 
 # os
 .DS_Store
+_pycache_/
+*.py[cod]
+*.pyo
+*.db
+*.tsbuildinfo

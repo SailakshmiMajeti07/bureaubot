@@ -31,6 +31,15 @@ export function ChatAssistant() {
     try {
       const res = await postToBureauBot("/chat", { message, jurisdiction: "India" });
       setResult(res);
+      // Persist user prompt and service in localStorage for Agent Dashboard & Mutagent Lifecycle
+      try {
+        localStorage.setItem("bureaubot_user_need", message);
+        if (res.tool) {
+          localStorage.setItem("bureaubot_active_service", res.tool);
+        }
+      } catch {
+        // Ignore storage errors
+      }
       // Pre-fill default reminder message
       setReminderMsg(`Reminder: Submit application for ${res.tool.replaceAll("_", " ").toUpperCase()}`);
     } catch (cause: any) {

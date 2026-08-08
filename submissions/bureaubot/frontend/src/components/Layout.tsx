@@ -87,6 +87,8 @@ export function Layout() {
     ["/eligibility", "Eligibility"],
     ["/checklist", "Documents"],
     ["/tracker", "Tracker"],
+    ["/agent-dashboard", "Agent Dashboard"],
+    ["/lifecycle", "Mutagent Lifecycle"],
     ...(isAuthenticated ? [["/dashboard", "User Dashboard"]] : []),
   ] as const;
 

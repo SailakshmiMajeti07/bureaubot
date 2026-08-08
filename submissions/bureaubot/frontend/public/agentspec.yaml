@@ -1,0 +1,102 @@
+# BureauBot Agent Specification (Mutagent Helix SPEC)
+name: BureauBot
+version: "2.2.0"
+description: >
+  Autonomous AI assistant that simplifies government service applications by guiding citizens 
+  through eligibility checks, document verification, application steps, official portal navigation, 
+  and deadline reminders using specialized multi-agent workflows.
+
+author: BureauBot Development Team
+lifecycle_stage: OPTIMIZE
+
+supported_services:
+  - id: passport_fresh
+    name: Fresh Passport Application (Passport Seva)
+    category: Identity & Travel
+  - id: passport_lost
+    name: Lost / Damaged Passport Reissue
+    category: Identity & Travel
+  - id: sc_scholarship
+    name: SC National Post-Matric Scholarship
+    category: Education & Welfare
+  - id: old_age_pension
+    name: Senior Citizen Old Age Pension Scheme
+    category: Social Security
+  - id: income_certificate
+    name: Annual Income Certificate
+    category: Revenue & Certificates
+  - id: pm_kisan
+    name: PM-KISAN Samman Nidhi Direct Benefit Transfer
+    category: Agriculture & Welfare
+  - id: ayushman_bharat
+    name: Ayushman Bharat PM-JAY Health Card
+    category: Healthcare
+  - id: pan_card
+    name: PAN Card Application & Correction
+    category: Tax & Identity
+  - id: driving_licence
+    name: Learner & Permanent Driving Licence (RTO)
+    category: Transport
+
+tools:
+  - name: ocr_scanner
+    type: ComputerVision
+    description: Extracts text from uploaded identity, income, land revenue, and academic marksheets.
+  - name: portal_recommendation_engine
+    type: DatabaseQuery
+    description: Queries PostgreSQL database for verified government portal URLs and citations.
+  - name: email_notifier
+    type: SMTP
+    description: Dispatches instant deadline alerts and status tracking updates to user email.
+  - name: calendar_exporter
+    type: iCalendar
+    description: Generates native .ics calendar files and Google Calendar event URLs.
+  - name: database_store
+    type: PostgreSQL
+    description: Stores application references, active scheme rules, and Mutagent lifecycle history.
+
+workflows:
+  primary_dag:
+    nodes:
+      - id: intent_detection
+        agent: Query Router Agent
+        action: Classify user request intent and select service tool workflow.
+      - id: eligibility_check
+        agent: Eligibility Agent
+        action: Validate age, income ceiling, category rules, and residence criteria.
+      - id: document_checklist
+        agent: Document Verification Agent
+        action: Retrieve required document checklist for selected service.
+      - id: document_verification
+        agent: Document Verification Agent
+        action: Verify self-attested documents against service requirements.
+      - id: step_by_step_guidance
+        agent: Guidance Agent
+        action: Generate clear, structured application steps with exact requirements.
+      - id: portal_recommendation
+        agent: Portal Finder Agent
+        action: Retrieve official government portal URL citation from database.
+      - id: reminder_scheduling
+        agent: Reminder Agent
+        action: Offer calendar export and schedule automated email deadline reminders.
+      - id: final_response
+        agent: Response Combiner
+        action: Combine all specialized agent outputs into a unified response.
+
+expected_behaviors:
+  - Ensure step-by-step guidance precedes portal links.
+  - Provide service-specific document checklists filtered by user eligibility.
+  - Offer calendar exports (.ics / Google Calendar) for application deadlines.
+  - Maintain 100% citation accuracy pointing only to official government portals.
+
+mutagent_evaluation_metrics:
+  - metric: intent_detection_score
+    target: 0.95
+  - metric: eligibility_score
+    target: 0.95
+  - metric: document_checklist_score
+    target: 0.95
+  - metric: guidance_score
+    target: 0.95
+  - metric: portal_recommendation_score
+    target: 0.95

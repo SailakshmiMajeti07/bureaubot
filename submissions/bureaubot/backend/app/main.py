@@ -10,6 +10,7 @@ if backend_dir not in sys.path:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.mutagent import router as mutagent_router
 from app.api.routes import router
 from app.config import get_settings
 from app.db.init_db import initialize_database
@@ -37,6 +38,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(router)
+app.include_router(mutagent_router)
 
 
 @app.get("/health", response_model=HealthResponse)

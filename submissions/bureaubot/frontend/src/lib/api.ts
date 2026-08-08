@@ -301,3 +301,66 @@ export async function createApplicationApi(data: { user_id: string; service_code
   const res = await api.post<ApplicationType>("/applications", data);
   return res.data;
 }
+
+// Mutagent Lifecycle APIs & Types
+export interface MutagentAgentType {
+  name: string;
+  status: string;
+  accuracy: number;
+  previous_accuracy?: number;
+  problem?: string | null;
+  improvement?: string | null;
+  prompt_version: string;
+  description: string;
+}
+
+export interface MutagentEvaluationType {
+  id: number;
+  test_name: string;
+  input: string;
+  expected: string[];
+  status: string;
+  previous_status?: string;
+  agent: string;
+  details?: string;
+  diagnosis?: string;
+  improvement_applied?: string;
+}
+
+export interface MutagentStatusType {
+  service_code?: string;
+  current_stage: string;
+  prompt_version: string;
+  active_spec: {
+    scheme_name: string;
+    goal: string;
+    agents_required: string[];
+  };
+  agents: MutagentAgentType[];
+  evaluations: MutagentEvaluationType[];
+  lifecycle_history: { stage: string; timestamp: string; note: string }[];
+  service_info?: any;
+}
+
+export async function getAgentSpecYamlApi(): Promise<string> {
+  const res = await api.get("/mutagent/agentspec.yaml", { responseType: "text" });
+  return res.data;
+}
+
+export async function getMutagentScenariosApi(): Promise<any> {
+  const res = await api.get("/mutagent/scenarios");
+  return res.data;
+}
+
+export async function getMutagentStatusApi(scenarioId: string = "scenario_scholarship_eligibility"): Promise<any> {
+  const res = await api.get(`/mutagent/status?scenario_id=${encodeURIComponent(scenarioId)}`);
+  return res.data;
+}
+
+export async function approveMutagentOptimizationApi(scenarioId: string = "scenario_scholarship_eligibility"): Promise<any> {
+  const res = await api.post(`/mutagent/optimize/approve?scenario_id=${encodeURIComponent(scenarioId)}`);
+  return res.data;
+}
+
+
+
